@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+.fc-green-color ,  .fc-green-color .fc-widget-header{
+    background-color: #f6ff71 !important;
+}
+.fc-blue-color , .fc-blue-color .fc-widget-header {
+  background-color: #a6fced !important;
+
+}
