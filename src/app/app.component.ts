@@ -1,7 +1,7 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { ViewChild, Component, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
-import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
 
@@ -11,32 +11,120 @@ import timeGridPlugin from '@fullcalendar/timegrid';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
+ 
   title = 'full-calenderTest';
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   public classnameOfButton: any;//= document.getElementsByClassName("fc-button");
 
-  calendarPlugins = [dayGridPlugin ,listPlugin , timeGridPlugin  ]; // important!
+  calendarPlugins = [dayGridPlugin, listPlugin, timeGridPlugin]; // important!
   flage = true
   displayEvent: any;
-  header =  {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth  ,dayGridWeek , dayGridDay ,listMonth  '
+  header = {
+    left: 'prev,next title ',
+    center: '',
+    right: 'today ,dayGridMonth  ,dayGridWeek , dayGridDay ,listMonth  '
   }
+ events = [
+  { title: 'event1',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-04',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    },
+
+  { title: 'event4',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-02',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    },
+
+  { title: 'event4',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-02',
+  color: '#818900',   
+  textColor: '#fff',
+  className:' fc-green'    },
+
+  { title: 'event1',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-02',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    },
+
+  { title: 'event1',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-02',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    },
+
+  { title: 'event3',
+  date: '2019-04-01',
+  id:'0' ,
+  end: '2019-04-02',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    },
+  
+  { title: 'event 2',
+  date: '2019-04-09' ,
+  id:'0' ,
+  end: '2019-04-12',
+  color: '#00acee',   
+  textColor: '#fff',
+  className:'fc-blue'    } 
+  ,
+  
+  { title: 'event 2',
+  date: '2019-04-04' ,
+  id:'0' ,
+  end: '2019-04-07',
+  color: '#00acee',   
+  textColor: '#fff',
+  className:'fc-blue'    } 
+  ,
+  { title: 'event 3',
+  date: '2019-06-09' ,
+  id:'0' ,
+  end: '2019-06-15',
+  color: '#818900',   
+  textColor: '#fff',
+  className:'fc-green'    } 
+  ]
   titleFormat = { // will produce something like "Tuesday, September 18, 2018"
- 
-}
+  year: 'numeric', month: 'long'
+  }
 
   public listDate: Array<any> = [];
 
   constructor() {
   }
-  
+
   ngOnInit() {
     var elements = document.getElementsByClassName('spinner')
     if (elements.length > 0) {
       elements[0].classList.remove('spinner');
     }
+    for (let index = 0; index < this.events.length; index++) {
+     var start= this.events[index].date;
+      var end = this.events[index].end;
+      let testArray: Array<any> = [];
+      testArray = this.getRangData(start, end);
+         if(testArray.length == 1) {
+        this.events[index].className += " fc-special-width"
+      }
+      this.listDate = []
+
+    }
+
+
   }
 
 
@@ -61,116 +149,118 @@ export class AppComponent implements OnInit, AfterViewInit {
 ** fixed error  background when click in any button in calender 
 */
 
-wrapSelectionButton(parent, eventHandler) {
-  parent.addEventListener("click", () => { eventHandler() });
-}
-fetchButton = () => {
-  this.exucetionWhenStart();
-}
-
-
-
-// show alert dailaog  with all event content
-eventClick(model: any) {
-  this.displayEvent = model.event.title;
-  alert(this.displayEvent + "this your event ");
-
-
-  model = {
-    event: {
-      id: model.event.id,
-      start: model.event.start,
-      end: model.event.end,
-      title: model.event.title,
-      allDay: model.event.allDay
-      // other params
-    },
-    duration: {}
+  wrapSelectionButton(parent, eventHandler) {
+    parent.addEventListener("click", () => { eventHandler() });
+  }
+  fetchButton = () => {
+    this.exucetionWhenStart();
   }
 
-  this.displayEvent = model;
 
-}
-/* 
-------> myAllEvents return all object of full-calender  then acces  to events
------->  then loop in all events take startdate  and  enddate  and  the className used for change color 
------->fetch all element the data-attributes as same as the date of range and chang backgroun color
-*/
-exucetionWhenStart() {
-  let myAllEvents: any = this.calendarComponent.events
-  let startDate: any;
-  let endDate: any;
-  let eventType: string;
 
-  for (let index = 0; index < myAllEvents.length; index++) {
-    startDate = myAllEvents[index].date;
-    endDate = myAllEvents[index].end;
-    eventType = myAllEvents[index].className;
-    let testArray: Array<any> = [];
-    testArray = this.getRangData(startDate, endDate);
-    for (var i = 0; i < testArray.length; i++) {
-      var tdDomElement = document.querySelectorAll('[data-date="' + testArray[i] + '"]');
-      if(tdDomElement[0] == undefined)
-      continue;
-      else{        
-      if(!tdDomElement[0].classList.contains(eventType)){
-        var elementClasses =  tdDomElement[0].attributes[0].nodeValue;
-        tdDomElement[0].setAttribute("class",elementClasses + " " + eventType + "-color");
-     
+  // show alert dailaog  with all event content
+  eventClick(model: any) {
+    this.displayEvent = model.event.title;
+    alert(this.displayEvent + "this your event ");
+
+
+    model = {
+      event: {
+        id: model.event.id,
+        start: model.event.start,
+        end: model.event.end,
+        title: model.event.title,
+        allDay: model.event.allDay
+        // other params
+      },
+      duration: {}
     }
 
-      } 
-    }
-    this.listDate = []
+    this.displayEvent = model;
+
   }
-
-  //#region  
-  /*
-   * old version for code  to find every weak then find every day and fetch all data-date 
-   * comper between every data-date and the arry return from dateofRange Function () 
+  /* 
+  ------> myAllEvents return all object of full-calender  then acces  to events
+  ------>  then loop in all events take startdate  and  enddate  and  the className used for change color 
+  ------>fetch all element the data-attributes as same as the date of range and chang backgroun color
   */
-  //var x = document.getElementsByClassName("fc-week")
-  //   for (let index = 0; index < 6; index++) {  
-  // let td  =  x[index].children[0].children[0].children[0].children[0]
-  //  for(let indexTr =0 ; indexTr < 7 ; indexTr++)
-  //  {
+  exucetionWhenStart() {
+    let myAllEvents: any = this.calendarComponent.events
+    let startDate: any;
+    let endDate: any;
+    let eventType: string;
 
-  //    let trelement = td.children[indexTr].getAttribute('data-date')
-  //    if (testArray.includes(trelement)){
+    for (let index = 0; index < myAllEvents.length; index++) {
+      startDate = myAllEvents[index].date;
+      endDate = myAllEvents[index].end;
+      eventType = myAllEvents[index].className;
+      let testArray: Array<any> = [];
+      testArray = this.getRangData(startDate, endDate);
+      
+     
+      for (var i = 0; i < testArray.length; i++) {
+        var tdDomElement = document.querySelectorAll('[data-date="' + testArray[i] + '"]');
+        if (tdDomElement[0] == undefined)
+          continue;
+        else {
+          if (!tdDomElement[0].classList.contains(eventType)) {
+            var elementClasses = tdDomElement[0].attributes[0].nodeValue;
+            tdDomElement[0].setAttribute("class", elementClasses + " " + eventType + "-color");
 
-  //       td.children[indexTr].setAttribute('class','fc-green')
+          }
 
-  //     }else{
-  //      console.log("hello no ")
-  //    }
-  //  }
+        }
+      }
+      this.listDate = []
+    }
+
+    //#region  
+    /*
+     * old version for code  to find every weak then find every day and fetch all data-date 
+     * comper between every data-date and the arry return from dateofRange Function () 
+    */
+    //var x = document.getElementsByClassName("fc-week")
+    //   for (let index = 0; index < 6; index++) {  
+    // let td  =  x[index].children[0].children[0].children[0].children[0]
+    //  for(let indexTr =0 ; indexTr < 7 ; indexTr++)
+    //  {
+
+    //    let trelement = td.children[indexTr].getAttribute('data-date')
+    //    if (testArray.includes(trelement)){
+
+    //       td.children[indexTr].setAttribute('class','fc-green')
+
+    //     }else{
+    //      console.log("hello no ")
+    //    }
+    //  }
 
 
-  //}
-  //#endregion
-}
+    //}
+    //#endregion
+  }
 
-/*  
-   * this is recursion function for looping  in data range*
- ------> first take startDate and endDate 
- ------> dateMove to change format date to  Mon Apr 01 2019 02:00:00 GMT+0200 (Eastern European Standard Time) {}
- ------>toISOString return 2011-10-05T14:48:00.000Z  .slice (0,10) return 2011-10-05
-------> then push to array 
-*/
+  /*  
+     * this is recursion function for looping  in data range*
+   ------> first take startDate and endDate 
+   ------> dateMove to change format date to  Mon Apr 01 2019 02:00:00 GMT+0200 (Eastern European Standard Time) {}
+   ------>toISOString return 2011-10-05T14:48:00.000Z  .slice (0,10) return 2011-10-05
+  ------> then push to array 
+  */
 
-getRangData(startDate, endDate): Array<any> {
+  getRangData(startDate, endDate): Array<any> {
 
-  let clonedStrDate;
-  var dateMove = new Date(startDate);
-  if (startDate < endDate) {
-    var strDate = dateMove.toISOString().slice(0, 10);
-    this.listDate.push(strDate);
-    dateMove.setDate(dateMove.getDate() + 1);
-    clonedStrDate = dateMove.toISOString().slice(0, 10);
-    this.getRangData(clonedStrDate, endDate);
-  };
+    let clonedStrDate;
+    var dateMove = new Date(startDate);
+    if (startDate < endDate) {
+      var strDate = dateMove.toISOString().slice(0, 10);
+      this.listDate.push(strDate);
+      dateMove.setDate(dateMove.getDate() + 1);
+      clonedStrDate = dateMove.toISOString().slice(0, 10);
+      this.getRangData(clonedStrDate, endDate);
+    };
 
-  return this.listDate;
-}
+    return this.listDate;
+  }
 
 }

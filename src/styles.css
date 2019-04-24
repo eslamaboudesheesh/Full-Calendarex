@@ -8,3 +8,117 @@
   background-color: #a6fced !important;
 
 }
+
+
+
+
+.fc-dayGridMonth-view .fc-green::after , 
+.fc-dayGridMonth-view .fc-blue::after {
+border-left: 17px solid #818900;
+}
+
+.fc-dayGridMonth-view .fc-green::after , .fc-dayGridMonth-view .fc-green::before {
+content: " ";
+  position: absolute;
+  top: -1px;
+  right: -25px;
+  width: 0;
+  height: 0;
+  border-top: 11.666999px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 26px solid #818900;
+  z-index: 2;
+  transition: border-color 0.2s ease;
+}
+.fc-dayGridMonth-view .fc-blue::after , .fc-dayGridMonth-view .fc-blue::before {
+content: " ";
+  position: absolute;
+  top: -1px;
+  right: -25px;
+  width: 0;
+  height: 0;
+  border-top: 11.666999px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 26px solid #00acee;
+  z-index: 2;
+  transition: border-color 0.2s ease;
+}
+.fc-dayGridMonth-view .fc-day-grid-event {
+width: 92%;
+}
+
+.fc-dayGridMonth-view .fc-special-width {
+width: 77% !important;
+}
+
+.fc-right .fc-button-primary {
+    color: #fff; 
+  background-color: #3bc0f8;
+   border-color: #3bc0f8;
+   outline: none;
+  box-shadow: none !important;
+}
+
+.fc-right .fc-button-active , .fc-right .fc-button-primary:hover{
+  color: #fff;
+  background-color: #077aac !important;
+   border-color:  #077aac !important;
+   box-shadow: none !important;
+}
+
+
+.fc-right .fc-button-primary {
+display: inline-block;
+  font-weight: 400;
+   text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  font-size: 1em;
+  line-height: 1.5;
+  border-radius: 0px !important;
+  padding-left: 17px;
+  padding-right: 16px;
+  padding-top: 0px  ;
+  padding-bottom: 0px;
+  height: 30px;
+  margin-left: 0px !important;
+  cursor: pointer;
+}
+
+.fc-right .fc-button-primary:disabled {
+  color: #fff;
+  background-color: #077aac !important;
+   border-color:  #077aac !important;
+   
+}
+.fc-left {
+display: flex;
+}
+
+.fc-left .fc-button-primary  {
+display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1em;
+  line-height: 1.5;
+  border-radius: 0px !important;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 30px;
+  margin-right: 11px !important;
+  cursor: pointer;
+      color:  #2C3E50; 
+   background-color: transparent;
+}
+
